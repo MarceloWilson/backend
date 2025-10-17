@@ -6,13 +6,17 @@ dotenv.config()
 const app = express()
 app.use(express.json())
 
-// ===== CONFIGURAÇÃO DO BANCO =====
-const { DB_USER, DB_PASS, DB_HOST, DB_NAME, PORT } = process.env
 
-const url = `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`
+const DB_HOST = process.env.DB_HOST
+const DB_USER = process.env.DB_USER
+const DB_PASS = process.env.DB_PASS
+const DB_NAME = process.env.DB_NAME
+
+const url = `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
 
 
-mongoose.connect(url)
+
+mongoose.connect("mongodb+srv://marcelowilson:M123456@cluster0.3pi2p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("Conectado ao MongoDB Atlas"))
   .catch(err => console.error("Erro ao conectar ao MongoDB:", err))
 
@@ -107,7 +111,8 @@ app.delete('/livros/:id', async (req, res) => {
 })
 
 
-const porta = PORT || 3000
+
+const porta = process.env.PORT || 3000
 app.listen(porta, () => {
-  console.log(`Servidor rodando em http://localhost:3000`)
+  console.log(`Servidor rodando em http://localhost:${porta}`)
 })
